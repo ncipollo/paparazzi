@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginKt
+
 apply plugin: 'org.jetbrains.kotlin.jvm'
 apply plugin: 'org.jetbrains.kotlin.kapt'
 apply plugin: 'org.jetbrains.dokka'
@@ -22,6 +24,12 @@ dependencies {
 }
 
 dependencies {
+  api files('libs/compose-runtime-1.0.5.jar')
+  compileOnly files('libs/compose-ui-1.0.5.jar')
+  compileOnly deps.androidx.lifecycleCommon
+  compileOnly files('libs/lifecycle-runtime-2.4.0.jar')
+  compileOnly files('libs/savedstate-1.1.0.jar')
+
   api deps.layoutlib.native.jdk11
   api deps.tools.common
   api deps.tools.layoutlib
@@ -55,6 +63,8 @@ dependencies {
   }
 
   testImplementation deps.assertj
+
+  add(KotlinPluginKt.PLUGIN_CLASSPATH_CONFIGURATION_NAME, deps.compose.compiler)
 }
 
 tasks.named("dokkaGfm").configure {
