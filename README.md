@@ -1,6 +1,49 @@
 Paparazzi
 ========
 
+Nick Edit
+-------
+
+## Overview
+This repo has been modified to target `android sdk 31`. I've pulled in the latest layout_lib from 
+android studio and added scripts to make it easier to manage the local maven repo.
+
+To get everything setup in your local environment:
+- run `./scripts/set_local_maven.sh`
+- run `./scripts/local_publish_layout_lib.sh` (this will take awhile)
+- run `./scripts/local_publish_paparazzi.sh`
+
+## State of the world
+Everything compiles but when I try and run the tests in the sample project the layout_lib crashes with the following JNI error:
+```
+SEVERE: broken: Native layoutlib failed to load
+java.lang.UnsatisfiedLinkError: unsupported JNI version 0xFFFFFFFF required by /Users/nicholas.cipollo/.gradle/caches/transforms-3/9db22b925de80d2eefb9d7b596fb4f8f/transformed/layoutlib-native-macosx-2021.1.1-573f0704/data/mac/lib64/libandroid_runtime.dylib
+	at java.base/java.lang.ClassLoader$NativeLibrary.load0(Native Method)
+	at java.base/java.lang.ClassLoader$NativeLibrary.load(ClassLoader.java:2442)
+	at java.base/java.lang.ClassLoader$NativeLibrary.loadLibrary(ClassLoader.java:2498)
+	at java.base/java.lang.ClassLoader.loadLibrary0(ClassLoader.java:2694)
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2627)
+	at java.base/java.lang.Runtime.load0(Runtime.java:768)
+	at java.base/java.lang.System.load(System.java:1837)
+	at com.android.layoutlib.bridge.Bridge.loadNativeLibraries(Bridge.java:720)
+	at com.android.layoutlib.bridge.Bridge.loadNativeLibrariesIfNeeded(Bridge.java:695)
+	at com.android.layoutlib.bridge.Bridge.init(Bridge.java:178)
+	at app.cash.paparazzi.internal.Renderer.prepare(Renderer.kt:84)
+	at app.cash.paparazzi.Paparazzi.prepare(Paparazzi.kt:133)
+	at app.cash.paparazzi.Paparazzi$apply$statement$1.evaluate(Paparazzi.kt:106)
+	at app.cash.paparazzi.agent.AgentTestRule$apply$1.evaluate(AgentTestRule.kt:17)
+	...
+```
+
+## General Info
+- Paparazzi utilizes the preview manager from Android Studio to draw screenshots on the JVM (i.e not within an emulator or device)
+- It does this via layoutlib. This is an open source tool which google publishes. 
+- The currently published paparazzi is using a layoutlib which isn't compatible with android 31.
+- This branch fetches the very latest layout lib from Android Studio 🐝.
+
+
+Original Intro
+-------
 An Android library to render your application screens without a physical device or emulator.
 
 ```kotlin
