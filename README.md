@@ -10,6 +10,7 @@ android studio and added scripts to make it easier to manage the local maven rep
 
 To get everything setup in your local environment:
 - run `./scripts/set_local_maven.sh`
+- In `build.gradle`, uncomment `releasedPaparazzi: '0.9.3-Nick-SNAPSHOT'` and comment the line above it out. 
 - run `./scripts/local_publish_layout_lib.sh` (this will take awhile)
 - run `./scripts/local_publish_paparazzi.sh`
 
